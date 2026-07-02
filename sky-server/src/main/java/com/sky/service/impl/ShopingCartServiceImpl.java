@@ -32,7 +32,6 @@ public class ShopingCartServiceImpl implements ShopingCartService {
 
     /**
      * 添加购物车
-     *
      * @param shoppingCartDTO
      * @return
      */
@@ -77,8 +76,20 @@ public class ShopingCartServiceImpl implements ShopingCartService {
             shopingCartMapper.insert(shoppingCart);
         }
 
+    }
 
-
-
+    /**
+     * 查看购物车
+     * @return
+     */
+    @Override
+    public List<ShoppingCart> showShoppingCart() {
+        //获取当前微信用户的id
+        Long userId = BaseContext.getCurrentId();
+        ShoppingCart shoppingCart = ShoppingCart.builder()
+                .userId(userId)
+                .build();
+        List<ShoppingCart> list = shopingCartMapper.list(shoppingCart);
+        return list;
     }
 }
