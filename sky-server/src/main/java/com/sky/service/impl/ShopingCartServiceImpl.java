@@ -92,4 +92,10 @@ public class ShopingCartServiceImpl implements ShopingCartService {
         List<ShoppingCart> list = shopingCartMapper.list(shoppingCart);
         return list;
     }
+
+    public void cleanShoppingCart() {
+        //获取当前微信用户的id
+        Long userId = BaseContext.getCurrentId();
+        shopingCartMapper.deleteByUserId(userId);
+    }
 }
