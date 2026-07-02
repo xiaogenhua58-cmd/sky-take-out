@@ -3,7 +3,7 @@ package com.sky.controller.user;
 import com.sky.dto.ShoppingCartDTO;
 import com.sky.entity.ShoppingCart;
 import com.sky.result.Result;
-import com.sky.service.ShopingCartService;
+import com.sky.service.ShoppingCartService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -16,10 +16,10 @@ import java.util.List;
 @RequestMapping("/user/shoppingCart")
 @Api(tags = "C端-购物车相关接口")
 @Slf4j
-public class ShopingCartController {
+public class ShoppingCartController {
 
     @Autowired
-    private ShopingCartService shopingCartService;
+    private ShoppingCartService shoppingCartService;
 
     /**
      * 添加购物车
@@ -30,7 +30,7 @@ public class ShopingCartController {
     @ApiOperation("添加购物车")
     public Result add(@RequestBody ShoppingCartDTO shoppingCartDTO) {
         log.info("添加购物车：{}", shoppingCartDTO);
-        shopingCartService.addshoppingCart(shoppingCartDTO);
+        shoppingCartService.addshoppingCart(shoppingCartDTO);
         return Result.success();
     }
     /**
@@ -40,7 +40,7 @@ public class ShopingCartController {
     @GetMapping("/list")
     @ApiOperation("查看购物车")
     public Result<List<ShoppingCart>> list() {
-        List<ShoppingCart> list =shopingCartService.showShoppingCart();
+        List<ShoppingCart> list =shoppingCartService.showShoppingCart();
         return Result.success(list);
     }
 
@@ -51,7 +51,20 @@ public class ShopingCartController {
     @DeleteMapping("/clean")
     @ApiOperation("清空购物车")
     public Result clean() {
-        shopingCartService.cleanShoppingCart();
+        shoppingCartService.cleanShoppingCart();
+        return Result.success();
+    }
+
+    /**
+     * 删除购物车中一个商品
+     * @param shoppingCartDTO
+     * @return
+     */
+    @PostMapping("/sub")
+    @ApiOperation("删除购物车中一个商品")
+    public Result sub(@RequestBody ShoppingCartDTO shoppingCartDTO){
+        log.info("删除购物车中一个商品，商品：{}", shoppingCartDTO);
+        shoppingCartService.subShoppingCart(shoppingCartDTO);
         return Result.success();
     }
 }
